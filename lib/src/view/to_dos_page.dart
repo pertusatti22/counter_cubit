@@ -30,6 +30,9 @@ class ToDosPage extends StatelessWidget {
                       final Post singlePost = postList[index];
                       return Card(
                         child: ListTile(
+                          leading: CircleAvatar(
+                            child: Text(singlePost.id.toString()),
+                          ),
                           title: Text(singlePost.title),
                           subtitle: Text(singlePost.body),
                         ),

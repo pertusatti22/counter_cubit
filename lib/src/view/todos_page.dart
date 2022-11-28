@@ -1,12 +1,13 @@
-import 'package:counter_cubit/src/cubit/post_fetch_cubit.dart';
-import 'package:counter_cubit/src/models/post_model.dart';
+import 'package:counter_cubit/src/cubit/todos/todo_fetch_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ToDosPage extends StatelessWidget {
+import '../models/todo_model.dart';
+
+class TodosPage extends StatelessWidget {
   final String title;
 
-  const ToDosPage({Key? key, required this.title}) : super(key: key);
+  const TodosPage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,27 +15,28 @@ class ToDosPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: BlocBuilder<PostFetchCubit, PostFetchState>(
+      body: BlocBuilder<TodoFetchCubit, TodoFetchState>(
         builder: (context, state) {
-          if (state is PostFetchLoading) {
+          if (state is TodoFetchLoading) {
             return const CircularProgressIndicator();
-          } else if (state is PostFetchError) {
+          } else if (state is TodoFetchError) {
             return Text(state.failure.message);
-          } else if (state is PostFetchLoaded) {
-            final postList = state.postList;
+          } else if (state is TodoFetchLoaded) {
+            final postList = state.todoList;
             return postList.isEmpty
                 ? const Text('No any posts')
                 : ListView.builder(
                     itemCount: postList.length,
                     itemBuilder: (context, index) {
-                      final Post singlePost = postList[index];
+                      final Todo singleTodo = postList[index];
                       return Card(
                         child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text(singlePost.id.toString()),
+                          leading: Checkbox(
+                            value: singleTodo.completed,
+                            onChanged: (bool? value) {},
                           ),
-                          title: Text(singlePost.title),
-                          subtitle: Text(singlePost.body),
+                          title: Text(singleTodo.title),
+                          subtitle: Text(singleTodo.userId.toString()),
                         ),
                       );
                     },

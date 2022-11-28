@@ -15,4 +15,14 @@ class ApiService {
     }
     return null;
   }
+
+  Future<Response?> getTodoData() async {
+    try {
+      final Response response = await _dio.get('$baseUrl/$todos');
+      return response;
+    } catch (err) {
+      log("Error: $err");
+    }
+    return null;
+  }
 }
